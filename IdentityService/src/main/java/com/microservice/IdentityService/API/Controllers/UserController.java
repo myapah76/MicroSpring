@@ -1,7 +1,7 @@
 package com.microservice.IdentityService.API.Controllers;
 
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
-import com.microservice.IdentityService.Application.Dtos.User.Response.UserResponse;
+import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
 import com.microservice.IdentityService.Application.Services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

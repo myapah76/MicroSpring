@@ -23,9 +23,6 @@ public abstract class BaseEntity {
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted = false;
-
     @PrePersist
     protected void onCreate() {
         createdAt = OffsetDateTime.now();
