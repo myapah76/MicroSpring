@@ -1,6 +1,7 @@
 package com.microservice.IdentityService.Domain.Entities;
 
 import com.microservice.IdentityService.Domain.Common.BaseEntity;
+import com.microservice.IdentityService.Domain.Common.SoftDeleteEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Table(name = "permissions")
 @Getter
 @Setter
-public class Permission extends BaseEntity {
+public class Permission extends SoftDeleteEntity {
 
     private String name;
 

@@ -1,6 +1,7 @@
 package com.microservice.IdentityService.Domain.Entities;
 
 import com.microservice.IdentityService.Domain.Common.BaseEntity;
+import com.microservice.IdentityService.Domain.Common.SoftDeleteEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "roles")
-public class Role extends BaseEntity {
+public class Role extends SoftDeleteEntity {
 
     private String name;
 

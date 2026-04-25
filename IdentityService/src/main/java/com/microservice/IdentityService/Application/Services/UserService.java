@@ -2,7 +2,8 @@ package com.microservice.IdentityService.Application.Services;
 
 
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
-import com.microservice.IdentityService.Application.Dtos.User.Response.UserResponse;
+import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
+import com.microservice.IdentityService.Application.Mapper.UserToResponse;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
@@ -19,6 +20,7 @@ public class UserService {
 
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserToResponse userMapper;
 
     // 🔥 CREATE USER
     public UserResponse createUser(CreateUserRequest request) {
@@ -47,41 +49,20 @@ public class UserService {
             user.setRole(role);
         }
         User savedUser = userRepository.save(user);
-        return mapToResponse(savedUser);
+        return userMapper.toResponse(savedUser);
     }
 
     public UserResponse getById(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return mapToResponse(user);
+        return userMapper.toResponse(user);
     }
 
     public List<UserResponse> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(this::mapToResponse)
+                .map(userMapper::toResponse)
                 .toList();
-    }
-
-    private UserResponse mapToResponse(User user) {
-        UserResponse res = new UserResponse();
-        res.setId(user.getId());
-        res.setFirstName(user.getFirstName());
-        res.setLastName(user.getLastName());
-        res.setEmail(user.getEmail());
-        res.setUsername(user.getUsername());
-        res.setPhone(user.getPhone());
-        res.setAddress(user.getAddress());
-        res.setGender(user.getGender());
-        res.setDateOfBirth(user.getDateOfBirth());
-        res.setIsBlocked(user.getIsBlocked());
-        res.setAvatarUrl(user.getAvatarUrl());
-        res.setCreatedAt(user.getCreatedAt());
-        res.setUpdatedAt(user.getUpdatedAt());
-        if (user.getRole() != null) {
-            res.setRoleName(user.getRole().getName());
-        }
-        return res;
     }
 }

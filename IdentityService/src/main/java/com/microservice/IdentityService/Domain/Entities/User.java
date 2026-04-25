@@ -1,6 +1,7 @@
 package com.microservice.IdentityService.Domain.Entities;
 
 import com.microservice.IdentityService.Domain.Common.BaseEntity;
+import com.microservice.IdentityService.Domain.Common.SoftDeleteEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.time.OffsetDateTime;
 @Table(name = "users")
 @Getter
 @Setter
-public class User extends BaseEntity {
+public class User extends SoftDeleteEntity {
 
     @Column(name = "first_name")
     private String firstName;
