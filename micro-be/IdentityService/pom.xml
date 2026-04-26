@@ -148,7 +148,8 @@
 									<artifactId>lombok</artifactId>
 								</path>
 							</annotationProcessorPaths>
-						</configuration>
+                            <basedir/>
+                        </configuration>
 					</execution>
 					<execution>
 						<id>default-testCompile</id>
