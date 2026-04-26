@@ -33,7 +33,7 @@ public class UserProfile {
         res.setCreatedAt(user.getCreatedAt());
         res.setUpdatedAt(user.getUpdatedAt());
         if (user.getRole() != null) {
-            res.setRoleResponse(roleProfile.mapRole(user.getRole()));
+            res.setRoleResponse(roleProfile.mapToResponse(user.getRole()));
         }
         return res;
     }
