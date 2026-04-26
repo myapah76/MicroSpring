@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 @Setter
 public class CreateUserRequest {
 
+    @NotNull
     private UserCommonRequest userCommonRequest;
 
     @NotBlank(message = "Password is required")

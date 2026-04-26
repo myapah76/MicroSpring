@@ -6,8 +6,10 @@ import com.microservice.IdentityService.Application.Dtos.User.Respone.UserRespon
 import com.microservice.IdentityService.Application.Services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,30 +21,36 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserResponse createUser(@Valid @RequestBody CreateUserRequest request) {
-        return userService.createUser(request);
+    public ResponseEntity<UserResponse> createUser(
+            @Valid @RequestBody CreateUserRequest request
+    ) {
+        UserResponse response = userService.createUser(request);
+
+        return ResponseEntity
+                .created(URI.create("/api/users/" + response.getId()))
+                .body(response);
     }
 
     @GetMapping("/{id}")
-    public UserResponse getById(@PathVariable UUID id) {
-        return userService.getById(id);
+    public ResponseEntity<UserResponse> getById(@PathVariable UUID id) {
+        return ResponseEntity.ok(userService.getById(id));
     }
 
-    @GetMapping()
-    public List<UserResponse> getAll() {
-        return userService.getAll();
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> getAll() {
+        return ResponseEntity.ok(userService.getAll());
     }
 
     @PatchMapping
-    public UserResponse updateUser(@RequestBody UserCommonRequest request) {
-        return userService.update(request);
+    public ResponseEntity<UserResponse> updateUser(
+            @RequestBody UserCommonRequest request
+    ) {
+        return ResponseEntity.ok(userService.update(request));
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(
-            @PathVariable UUID id
-    ) {
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.deleteById(id);
-        return "Delete successfully";
+        return ResponseEntity.noContent().build();
     }
 }

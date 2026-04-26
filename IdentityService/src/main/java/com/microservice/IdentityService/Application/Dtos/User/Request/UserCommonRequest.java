@@ -34,6 +34,6 @@ public class UserCommonRequest {
     private String avatarUrl;
 
     private String avatarPublicId;
-
+    
     private String roleId; // nhận từ client (UUID dạng string)
 }
