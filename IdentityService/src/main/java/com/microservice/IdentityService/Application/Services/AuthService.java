@@ -4,7 +4,7 @@ import com.microservice.IdentityService.Application.Dtos.User.CustomUserDetails;
 import com.microservice.IdentityService.Application.Dtos.User.Request.LoginRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.RefreshRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.AuthResponse;
-import com.microservice.IdentityService.Application.Mapper.UserToResponse;
+import com.microservice.IdentityService.Application.Mapper.UserProfile;
 import com.microservice.IdentityService.Application.Persistences.Cache.RedisTokenService;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
 import com.microservice.IdentityService.Domain.Entities.User;
@@ -23,7 +23,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
     private final RedisTokenService redisTokenService;
-    private final UserToResponse userMapper;
+    private final UserProfile userMapper;
 
     public AuthResponse login(LoginRequest request) {
 
@@ -58,11 +58,8 @@ public class AuthService {
 
     public void logout(String accessToken) {
 
-        System.out.println("INCOMING TOKEN = " + accessToken);
         String jti = jwtService.extractJwtId(accessToken);
-
         long ttl = getRemainingTime(accessToken);
-
         redisTokenService.blacklistToken(jti, ttl);
 
     }
