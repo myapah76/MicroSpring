@@ -1,5 +1,6 @@
 package com.microservice.IdentityService.Application.Dtos.User.Respone;
 
+import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,5 +31,5 @@ public class UserResponse {
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 
-    private String roleName; // hoặc roleSlug tùy bạn
+    private RoleResponse roleResponse;
 }
