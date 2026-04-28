@@ -1,5 +1,6 @@
 package com.microservice.IdentityService.Application.Services;
 
+import com.microservice.IdentityService.Application.Abstrations.IRoleService;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CommonRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CreateRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;
@@ -14,24 +15,23 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService {
+public class RoleService  implements IRoleService {
 
     private final IRoleRepository roleRepository;
     private final RoleProfile roleProfile;
 
+    @Override
     public RoleResponse createRole(CreateRoleRequest request) {
-        if(roleRepository.findBySlug(request.getSlug()).isPresent()){
-            throw new RuntimeException("Role with Slug already exists");
+        if (roleRepository.findByName(request.getCommonRoleRequest().getName()).isPresent()) {
+            throw new RuntimeException("Role name already exists");
         }
-        Role role = new Role();
-        role.setSlug(request.getSlug());
-        role.setDescription(request.getCommonRoleRequest().getDescription());
-        role.setName(request.getCommonRoleRequest().getName());
+        Role role = roleProfile.fromCreateRequest(request);
         roleRepository.save(role);
 
         return roleProfile.mapToResponse(role);
     }
 
+    @Override
     public List<RoleResponse> getAll() {
         return roleRepository.findAll()
                 .stream()
@@ -39,6 +39,7 @@ public class RoleService {
                 .toList();
     }
 
+    @Override
     public RoleResponse getById(UUID id) {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
@@ -46,12 +47,14 @@ public class RoleService {
         return roleProfile.mapToResponse(role);
     }
 
+    @Override
     public RoleResponse getByName(String name) {
         Role role = roleRepository.findByName(name)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         return roleProfile.mapToResponse(role);
     }
 
+    @Override
     public RoleResponse update(UUID id, CommonRoleRequest request) {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
@@ -61,6 +64,7 @@ public class RoleService {
         return roleProfile.mapToResponse(role);
     }
 
+    @Override
     public void deleteById(UUID id) {
         if (!roleRepository.existsById(id)) {
             throw new RuntimeException("Role not found");

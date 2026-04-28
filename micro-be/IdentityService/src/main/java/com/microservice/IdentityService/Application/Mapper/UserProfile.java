@@ -1,19 +1,20 @@
 package com.microservice.IdentityService.Application.Mapper;
 
+import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.stereotype.Component;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserProfile {
     private final RoleProfile roleProfile;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponse toResponse(User user) {
         if (user == null) return null;
@@ -37,19 +38,42 @@ public class UserProfile {
         }
         return res;
     }
+
+    public User fromCreateRequest(CreateUserRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Request must not be null");
+        }
+
+        var common = request.getUserCommonRequest();
+
+        User user = new User();
+        user.setFirstName(common.getFirstName());
+        user.setLastName(common.getLastName());
+        user.setEmail(common.getEmail());
+        user.setUsername(common.getUsername());
+        user.setPhone(common.getPhone());
+        user.setAddress(common.getAddress());
+        user.setGender(common.getGender());
+        user.setDateOfBirth(common.getDateOfBirth());
+        user.setAvatarUrl(common.getAvatarUrl());
+        user.setAvatarPublicId(common.getAvatarPublicId());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return user;
+    }
+
     public void update(User user, UserCommonRequest request, Role role) {
         if (user == null || request == null) return;
 
-        if (request.getFirstName() != null) {
-            user.setFirstName(request.getFirstName());
+        if (request.getFirstName() != null && !request.getFirstName().isBlank()) {
+            user.setFirstName(request.getFirstName().trim());
         }
 
-        if (request.getLastName() != null) {
-            user.setLastName(request.getLastName());
+        if (request.getLastName() != null && !request.getLastName().isBlank()) {
+            user.setLastName(request.getLastName().trim());
         }
 
-        if (request.getEmail() != null) {
-            user.setEmail(request.getEmail());
+        if (request.getEmail() != null && !request.getEmail().isBlank()) {
+            user.setEmail(request.getEmail().trim().toLowerCase());
         }
 
         if (request.getUsername() != null) {
@@ -80,12 +104,15 @@ public class UserProfile {
             user.setAvatarPublicId(request.getAvatarPublicId());
         }
 
+        if (request.getIsBlocked() != null) {
+            user.setIsBlocked(request.getIsBlocked());
+        }
+
         if (role != null) {
             user.setRole(role);
         }
     }
 
-    // Optional helper if you want to convert roleId inside mapper
     public UUID mapRoleId(String roleId) {
         return roleId != null ? UUID.fromString(roleId) : null;
     }

@@ -31,6 +31,8 @@ public class UserCommonRequest {
     @NotNull(message = "Date of birth is required")
     private OffsetDateTime dateOfBirth;
 
+    private Boolean isBlocked;
+
     private String avatarUrl;
 
     private String avatarPublicId;
