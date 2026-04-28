@@ -1,5 +1,6 @@
 package com.microservice.IdentityService.Application.Services;
 
+import com.microservice.IdentityService.Application.Abstrations.IAuthService;
 import com.microservice.IdentityService.Application.Dtos.User.CustomUserDetails;
 import com.microservice.IdentityService.Application.Dtos.User.Request.LoginRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.RefreshRequest;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthService implements IAuthService {
 
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -25,11 +26,14 @@ public class AuthService {
     private final RedisTokenService redisTokenService;
     private final UserProfile userMapper;
 
+    @Override
     public AuthResponse login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
-
+        if (user.getIsBlocked()) {
+            throw new RuntimeException("User is blocked");
+        }
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
@@ -43,11 +47,12 @@ public class AuthService {
                 refreshToken
         );
     }
-
+    @Override
     public AuthResponse refresh(RefreshRequest request) {
         RefreshToken token = refreshTokenService.validateRefreshToken(request.getRefreshToken());
         UserDetails userDetails = new CustomUserDetails(token.getUser());
         String newAccessToken = jwtService.generateToken(userDetails);
+        refreshTokenService.revokeToken(token.getToken());
         User user = token.getUser();
         return new AuthResponse(
                 userMapper.toResponse(user),
@@ -55,7 +60,7 @@ public class AuthService {
                 request.getRefreshToken()
         );
     }
-
+    @Override
     public void logout(String accessToken) {
 
         String jti = jwtService.extractJwtId(accessToken);
@@ -64,7 +69,9 @@ public class AuthService {
 
     }
 
+// Function Helper
     public long getRemainingTime(String token) {
-        return jwtService.extractExpiration(token).getTime() - System.currentTimeMillis();
+        long ttl = jwtService.extractExpiration(token).getTime() - System.currentTimeMillis();
+        return Math.max(ttl, 0);
     }
 }

@@ -70,8 +70,6 @@ public class JwtService {
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
 
         long expirationMs = expirationMinutes * 60 * 1000;
-        System.out.println("SYSTEM TIME: " + Instant.now());
-        System.out.println("JWT EXP: " + new Date(System.currentTimeMillis() + expirationMs));
 
         return Jwts.builder()
                 .setClaims(extraClaims)

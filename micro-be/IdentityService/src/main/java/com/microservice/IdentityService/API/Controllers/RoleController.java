@@ -1,5 +1,6 @@
 package com.microservice.IdentityService.API.Controllers;
 
+import com.microservice.IdentityService.Application.Abstrations.IRoleService;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CommonRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CreateRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoleController {
 
-    private final RoleService roleService;
+    private final IRoleService roleService;
 
     @PostMapping
     public ResponseEntity<RoleResponse> createRole(

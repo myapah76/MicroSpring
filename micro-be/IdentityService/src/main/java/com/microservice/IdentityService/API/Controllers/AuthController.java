@@ -1,5 +1,6 @@
 package com.microservice.IdentityService.API.Controllers;
 
+import com.microservice.IdentityService.Application.Abstrations.IAuthService;
 import com.microservice.IdentityService.Application.Dtos.User.Request.LoginRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.RefreshRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.AuthResponse;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final IAuthService authService;
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest request) {

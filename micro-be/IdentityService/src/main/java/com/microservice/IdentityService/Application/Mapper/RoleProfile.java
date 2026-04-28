@@ -1,13 +1,17 @@
 package com.microservice.IdentityService.Application.Mapper;
 
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CommonRoleRequest;
+import com.microservice.IdentityService.Application.Dtos.Role.Request.CreateRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RoleProfile {
+
     public RoleResponse mapToResponse(Role role) {
+        if (role == null) return null;
+
         RoleResponse res = new RoleResponse();
         res.setId(role.getId());
         res.setName(role.getName());
@@ -15,16 +19,34 @@ public class RoleProfile {
         res.setDescription(role.getDescription());
         return res;
     }
+
+    public Role fromCreateRequest(CreateRoleRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("Request must not be null");
+        }
+
+        Role role = new Role();
+        role.setSlug(request.getSlug());
+
+        if (request.getCommonRoleRequest() != null) {
+            role.setName(request.getCommonRoleRequest().getName());
+            role.setDescription(request.getCommonRoleRequest().getDescription());
+        }
+
+        return role;
+    }
+
     public void update(Role role, CommonRoleRequest request) {
-        if (role == null || request == null) return;
-
-        if (request.getName() != null) {
-            role.setName(request.getName());
+        if (role == null || request == null) {
+            throw new IllegalArgumentException("Role or request must not be null");
         }
 
-        if (request.getDescription() != null) {
-            role.setDescription(request.getDescription());
+        if (request.getName() != null && !request.getName().isBlank()) {
+            role.setName(request.getName().trim());
         }
 
+        if (request.getDescription() != null && !request.getDescription().isBlank()) {
+            role.setDescription(request.getDescription().trim());
+        }
     }
 }
