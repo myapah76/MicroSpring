@@ -1,6 +1,5 @@
 package com.microservice.IdentityService.Domain.Entities;
 
-import com.microservice.IdentityService.Domain.Common.BaseEntity;
 import com.microservice.IdentityService.Domain.Common.SoftDeleteEntity;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -47,6 +47,9 @@ run_sql_script() {
 # Core Services
 create_db_safe "identity_db"
 run_sql_script "identity_db" "/docker-entrypoint-initdb.d/schemas/02-identity.sql"
+
+create_db_safe "notification_db"
+run_sql_script "notification_db" "/docker-entrypoint-initdb.d/schemas/03-notification.sql"
 # seed test release
 run_sql_script "identity_db" "/docker-entrypoint-initdb.d/seeding/realease-init-identity.sql"
 echo "Database initialization process finished!"
