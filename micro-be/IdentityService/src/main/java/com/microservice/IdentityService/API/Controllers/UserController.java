@@ -50,7 +50,7 @@ public class UserController {
         return ResponseEntity.ok(userService.update(request));
     }
 
-    @PatchMapping
+    @PatchMapping("/change-password")
     public ResponseEntity<UserResponse> updatePassword(@RequestBody ChangePasswordRequest request){
         return ResponseEntity.ok(userService.changePassword(request));
     }
