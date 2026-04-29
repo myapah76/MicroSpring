@@ -2,15 +2,19 @@ package com.microservice.IdentityService.Application.Services;
 
 
 import com.microservice.IdentityService.Application.Abstrations.IUserService;
+import com.microservice.IdentityService.Application.Dtos.User.Request.ChangePasswordRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
+import com.microservice.IdentityService.Application.Exceptions.Auth.WrongPasswordException;
+import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IRoleRepository;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +27,7 @@ public class UserService implements IUserService {
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
     private final UserProfile userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse createUser(CreateUserRequest request) {
@@ -30,13 +35,13 @@ public class UserService implements IUserService {
         UserCommonRequest userCommonRequest = request.getUserCommonRequest();
         // 1. Check email exist
         if (userRepository.findByEmail(userCommonRequest.getEmail()).isPresent()){
-            throw new RuntimeException("Email already exists");
+            throw new RuntimeException(CommonCode.Email_Already_Registered);
         }
 
         User user = userMapper.fromCreateRequest(request);
         if (userCommonRequest.getRoleId() != null) {
             Role role = roleRepository.findById(UUID.fromString(userCommonRequest.getRoleId()))
-                    .orElseThrow(() -> new RuntimeException("Role not found"));
+                    .orElseThrow(() -> new RuntimeException(CommonCode.Role_Not_Found));
             user.setRole(role);
         }
         User savedUser = userRepository.save(user);
@@ -45,7 +50,7 @@ public class UserService implements IUserService {
     @Override
     public UserResponse getById(UUID id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(CommonCode.User_Not_Found));
 
         return userMapper.toResponse(user);
     }
@@ -59,20 +64,33 @@ public class UserService implements IUserService {
     @Override
     public UserResponse update(UserCommonRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(CommonCode.User_Not_Found));
         Role role = null;
         if (request.getRoleId() != null) {
             role = roleRepository.findById(UUID.fromString(request.getRoleId()))
-                    .orElseThrow(() -> new RuntimeException("Role not found"));
+                    .orElseThrow(() -> new RuntimeException(CommonCode.Role_Not_Found));
         }
         userMapper.update(user, request, role);
         userRepository.save(user);
         return userMapper.toResponse(user);
     }
+
+    @Override
+    public UserResponse changePassword(ChangePasswordRequest request){
+        User user = userRepository.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException(CommonCode.User_Not_Found));
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new WrongPasswordException(CommonCode.Wrong_Password);
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        return userMapper.toResponse(user);
+    }
+
     @Override
     public void deleteById(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found");
+            throw new RuntimeException(CommonCode.User_Not_Found);
         }
         userRepository.deleteById(id);
     }

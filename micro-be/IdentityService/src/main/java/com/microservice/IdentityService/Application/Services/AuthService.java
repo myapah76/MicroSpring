@@ -5,6 +5,9 @@ import com.microservice.IdentityService.Application.Dtos.User.CustomUserDetails;
 import com.microservice.IdentityService.Application.Dtos.User.Request.LoginRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.RefreshRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.AuthResponse;
+import com.microservice.IdentityService.Application.Exceptions.Auth.EmailNotFoundException;
+import com.microservice.IdentityService.Application.Exceptions.Auth.WrongPasswordException;
+import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
 import com.microservice.IdentityService.Application.Persistences.Cache.RedisTokenService;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
@@ -30,12 +33,12 @@ public class AuthService implements IAuthService {
     public AuthResponse login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new EmailNotFoundException(CommonCode.Email_Not_Found));
         if (user.getIsBlocked()) {
             throw new RuntimeException("User is blocked");
         }
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new WrongPasswordException(CommonCode.Wrong_Password);
         }
         UserDetails userDetails = new CustomUserDetails(user);
         String accessToken = jwtService.generateToken(userDetails);

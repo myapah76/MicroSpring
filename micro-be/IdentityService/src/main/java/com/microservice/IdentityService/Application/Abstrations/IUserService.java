@@ -1,5 +1,6 @@
 package com.microservice.IdentityService.Application.Abstrations;
 
+import com.microservice.IdentityService.Application.Dtos.User.Request.ChangePasswordRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
@@ -12,5 +13,6 @@ public interface IUserService {
     UserResponse getById(UUID id);
     List<UserResponse> getAll();
     UserResponse update(UserCommonRequest request);
+    UserResponse changePassword(ChangePasswordRequest request);
     void deleteById(UUID id);
 }

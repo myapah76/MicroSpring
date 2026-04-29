@@ -12,7 +12,4 @@ public class TokenException extends RuntimeException {
         this.code = code;
     }
 
-    public String getCode() {
-        return code;
-    }
 }
