@@ -17,7 +17,7 @@ public class ConsumerRegistryConfig {
 
     private final KafkaConsumerRegistry registry;
 
-    @EventListener(ApplicationReadyEvent.class)
+    @PostConstruct
     public void registerConsumers() {
         registry.register(
                 KafkaTopics.OTP_NOTIFICATIONS,
