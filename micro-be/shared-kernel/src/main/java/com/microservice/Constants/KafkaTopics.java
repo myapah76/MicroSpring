@@ -1,4 +1,4 @@
-package com.microservice.constants;
+package com.microservice.Constants;
 
 public final class KafkaTopics {
 
@@ -6,5 +6,4 @@ public final class KafkaTopics {
 
     public static final String OTP_NOTIFICATIONS = "otp-notifications";
     public static final String OTP_FORGET_PASSWORD = "otp-forget-password";
-    public static final String PASSWORD_RESET_NOTIFICATIONS = "password-reset-notifications";
 }

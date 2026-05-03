@@ -13,6 +13,9 @@ public class CommonCode {
     public static final String Email_Not_Found = "Email_Not_Found";
     public static final String Email_Already_Registered = "Email_Already_Registered";
     public static final String Wrong_Password = "Wrong_Password";
+    public static final String Wrong_Otp_Code = "Wrong_Otp_Code";
+    public static final String Otp_Expired = "OTP_EXPIRED";
+    public static final String Pending_User_Not_Found = "Pending_User_Not_Found";
 
     //User
     public static final String User_Not_Found = "User_Not_Found";

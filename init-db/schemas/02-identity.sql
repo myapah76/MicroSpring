@@ -54,14 +54,12 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     address TEXT,
-    gender INT NOT NULL DEFAULT 0, -- 0: Male, 1: Female
-    date_of_birth TIMESTAMP NOT NULL,
-    is_blocked BOOLEAN DEFAULT FALSE,
-    
-    current_hourly_wage DECIMAL(18, 2), -- Mức lương theo giờ hiện tại
 
-    -- Định danh nhân viên này thuộc biên chế cửa hàng nào
-    home_store_id UUID,
+    gender INT NOT NULL DEFAULT 0, -- 0: Male, 1: Female
+
+    date_of_birth TIMESTAMP WITH TIME ZONE,
+
+    is_blocked BOOLEAN DEFAULT FALSE,
 
     avatar_url VARCHAR(500),
     avatar_public_id VARCHAR(255),
@@ -71,9 +69,10 @@ CREATE TABLE IF NOT EXISTS users (
     is_deleted BOOLEAN DEFAULT FALSE,
 
     role_id UUID,
-    CONSTRAINT fk_users_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL
+    CONSTRAINT fk_users_role
+        FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL
 );
-CREATE INDEX idx_users_home_store ON users(home_store_id) WHERE is_deleted = FALSE;
+
 
 -- TABLE TOKEN
 CREATE TABLE IF NOT EXISTS refresh_tokens (
@@ -90,3 +89,27 @@ CREATE TABLE IF NOT EXISTS refresh_tokens (
     user_id UUID NOT NULL,
     CONSTRAINT fk_tokens_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- TABLE OUTBOX (EVENT OUTBOX PATTERN)
+CREATE TABLE IF NOT EXISTS outbox_messages (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+    type VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL,
+
+    occurred_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+    processed BOOLEAN DEFAULT FALSE,
+
+    retry_count INT DEFAULT 0,
+    last_error TEXT,
+
+    processed_on TIMESTAMP WITH TIME ZONE,
+
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+-- index để worker chạy nhanh
+CREATE INDEX idx_outbox_processed ON outbox_messages(processed);
+CREATE INDEX idx_outbox_type ON outbox_messages(type);
+
+
