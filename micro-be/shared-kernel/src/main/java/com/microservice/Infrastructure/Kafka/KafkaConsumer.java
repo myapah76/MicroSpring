@@ -2,8 +2,10 @@ package com.microservice.Infrastructure.Kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservice.Abstractions.IIntegrationEventHandler;
+import com.microservice.Constants.KafkaTopics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -12,11 +14,14 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 
-
 @Component
 @RequiredArgsConstructor
-@DependsOn("kafkaTopicInitializer")
 @Slf4j
+@ConditionalOnProperty(
+        name = "kafka.consumer.enabled",
+        havingValue = "true",
+        matchIfMissing = false
+)
 public class KafkaConsumer {
 
     private final KafkaConsumerRegistry registry;
@@ -24,7 +29,10 @@ public class KafkaConsumer {
     private final ApplicationContext context;
 
     @KafkaListener(
-            topics = "#{kafkaTopics.all()}",
+            topics = {
+                    KafkaTopics.OTP_NOTIFICATIONS,
+                    KafkaTopics.OTP_FORGET_PASSWORD
+            },
             groupId = "default-group-v1"
     )
     public void consume(org.apache.kafka.clients.consumer.ConsumerRecord<String, String> record) {

@@ -1,6 +1,5 @@
 package com.microservice.IdentityService.Infrastucture.scheduler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservice.Constants.KafkaTopics;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IOutboxRepository;
 import com.microservice.IdentityService.Domain.Entities.OutboxMessage;
@@ -21,7 +20,6 @@ public class OutboxPublisherJob {
 
     private final IOutboxRepository outboxRepository;
     private final KafkaProducer kafkaProducer;
-    private final ObjectMapper objectMapper;
 
     @Scheduled(fixedDelay = 2000) // 2s
     public void publishOutbox() {
@@ -32,7 +30,7 @@ public class OutboxPublisherJob {
             try {
                 // 1. lấy topic từ type
                 String topic = mapTopic(msg.getType());
-                Object payload = objectMapper.readTree(msg.getContent());
+                String payload = msg.getContent();
                 // 2. gui kafka
                 kafkaProducer.publish(topic, payload);
 
