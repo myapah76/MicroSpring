@@ -22,7 +22,6 @@
         <module>shared-kernel</module>
         <module>NotificationService</module>
         <module>IdentityService</module>
-        <module>shared-kernel</module>
     </modules>
 
     <properties>

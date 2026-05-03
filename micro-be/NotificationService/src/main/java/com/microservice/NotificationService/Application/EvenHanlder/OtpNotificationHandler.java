@@ -25,8 +25,7 @@ public class OtpNotificationHandler implements IIntegrationEventHandler<OtpNotif
     @Override
     public void handle(OtpNotificationEvent event) {
 
-
-        //IDENTITY CHECK (Kafka deduplication)
+        //IDENTITY CHECK
         if (idempotencyService.isProcessed(event.id())) {
             return;
         }
@@ -47,8 +46,6 @@ public class OtpNotificationHandler implements IIntegrationEventHandler<OtpNotif
         //MARK AS PROCESSED
         idempotencyService.markProcessed(event.id());
     }
-
-
 
     public void handleForgetPassword(OtpNotificationEvent event) {
         log.info("Received forget password OTP for email: {}", event.email());

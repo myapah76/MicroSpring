@@ -15,7 +15,7 @@ create_db_safe() {
     if [ "$exists" = "1" ]; then
         echo -e "${GREEN}SKIP:${NC} Database '$db_name' already exists."
     else
-        # 2. Create new if not exists
+       # 2. Create new if not exists
         if psql -U "$POSTGRES_USER" -c "CREATE DATABASE $db_name" 2>/dev/null; then
             echo -e "${GREEN}SUCCESS:${NC} Database '$db_name' created successfully."
         else
