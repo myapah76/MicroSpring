@@ -9,7 +9,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class RedisOtpService {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
     private final RedisScript<Long> saveOtpScript;
     private final RedisScript<Long> validateOtpScript;
 
