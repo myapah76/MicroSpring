@@ -1,4 +1,4 @@
-package com.microservice.IdentityService.Application.Persistences.Cache;
+package com.microservice.IdentityService.Infrastucture.Persistences.Cache;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

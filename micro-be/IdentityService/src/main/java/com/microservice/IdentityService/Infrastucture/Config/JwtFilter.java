@@ -3,13 +3,12 @@ package com.microservice.IdentityService.Infrastucture.Config;
 import com.microservice.IdentityService.Application.Dtos.User.CustomUserDetails;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
 import com.microservice.IdentityService.Application.Services.JwtService;
-import com.microservice.IdentityService.Application.Persistences.Cache.RedisTokenService;
+import com.microservice.IdentityService.Infrastucture.Persistences.Cache.RedisTokenService;
 import com.microservice.IdentityService.Domain.Entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -17,7 +16,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {

@@ -1,4 +1,4 @@
-package com.microservice.NotificationService.Application.Persistences.Repository;
+package com.microservice.NotificationService.Application.Abstractions;
 
 import com.microservice.NotificationService.Domain.Entities.NotificationLog;
 import com.microservice.NotificationService.Domain.Enums.NotificationType;

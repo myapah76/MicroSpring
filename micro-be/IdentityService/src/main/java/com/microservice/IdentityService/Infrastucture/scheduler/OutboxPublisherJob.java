@@ -1,5 +1,6 @@
 package com.microservice.IdentityService.Infrastucture.scheduler;
 
+import com.microservice.Abstractions.IKafkaProducer;
 import com.microservice.Constants.KafkaTopics;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IOutboxRepository;
 import com.microservice.IdentityService.Domain.Entities.OutboxMessage;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class OutboxPublisherJob {
 
     private final IOutboxRepository outboxRepository;
-    private final KafkaProducer kafkaProducer;
+    private final IKafkaProducer kafkaProducer;
 
     @Scheduled(fixedDelay = 2000) // 2s
     public void publishOutbox() {

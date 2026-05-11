@@ -7,7 +7,6 @@ import com.microservice.Events.OtpNotificationEvent;
 import com.microservice.Events.OtpType;
 import com.microservice.IdentityService.Application.Abstrations.IAuthService;
 import com.microservice.IdentityService.Application.Abstrations.IOutboxService;
-import com.microservice.IdentityService.Application.Abstrations.IRoleService;
 import com.microservice.IdentityService.Application.Dtos.Auth.PendingUser;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.ConfirmOtpRequest;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.RegisterRequest;
@@ -21,7 +20,7 @@ import com.microservice.IdentityService.Application.Exceptions.Auth.WrongOtpCode
 import com.microservice.IdentityService.Application.Exceptions.Auth.WrongPasswordException;
 import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
-import com.microservice.IdentityService.Application.Persistences.Cache.RedisTokenService;
+import com.microservice.IdentityService.Infrastucture.Persistences.Cache.RedisTokenService;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IRoleRepository;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
 import com.microservice.IdentityService.Domain.Entities.Role;
@@ -39,7 +38,6 @@ import java.security.MessageDigest;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.HexFormat;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

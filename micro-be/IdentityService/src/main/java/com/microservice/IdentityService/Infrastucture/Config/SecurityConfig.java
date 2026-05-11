@@ -2,7 +2,7 @@ package com.microservice.IdentityService.Infrastucture.Config;
 
 import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
 import com.microservice.IdentityService.Application.Services.JwtService;
-import com.microservice.IdentityService.Application.Persistences.Cache.RedisTokenService;
+import com.microservice.IdentityService.Infrastucture.Persistences.Cache.RedisTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

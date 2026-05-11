@@ -1,8 +1,8 @@
 package com.microservice.NotificationService.API.Controller;
 
 import com.microservice.NotificationService.Application.Abstractions.IEmailSender;
-import com.microservice.NotificationService.Domain.Dtos.OtpRequest;
-import com.microservice.NotificationService.Domain.Dtos.ResetPasswordRequest;
+import com.microservice.NotificationService.Application.Dtos.OtpRequest;
+import com.microservice.NotificationService.Application.Dtos.ResetPasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

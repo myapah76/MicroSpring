@@ -1,4 +1,4 @@
-package com.microservice.NotificationService.Domain.Dtos;
+package com.microservice.NotificationService.Application.Dtos;
 
 public record OtpRequest(
         String email,

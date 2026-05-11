@@ -1,5 +1,6 @@
-package com.microservice.NotificationService.Application.Persistences.Cache;
+package com.microservice.NotificationService.Infrastructure.Persistences.Cache;
 
+import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisRateLimitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -9,7 +10,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class RedisRateLimitService {
+public class RedisRateLimitService implements IRedisRateLimitService {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final RedisScript<Long> rateLimitScript;
@@ -18,6 +19,7 @@ public class RedisRateLimitService {
     private static final int MAX_REQUESTS = 5;
     private static final int WINDOW_SECONDS = 60;
 
+    @Override
     public boolean isAllowed(String key) {
         String redisKey = PREFIX + "otp:" + key;
 

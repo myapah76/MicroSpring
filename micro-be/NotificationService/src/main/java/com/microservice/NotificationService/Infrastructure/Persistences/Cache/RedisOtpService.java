@@ -1,5 +1,6 @@
-package com.microservice.NotificationService.Application.Persistences.Cache;
+package com.microservice.NotificationService.Infrastructure.Persistences.Cache;
 
+import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisOtpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -7,7 +8,7 @@ import org.springframework.data.redis.core.script.RedisScript;
 import java.util.Collections;
 @Service
 @RequiredArgsConstructor
-public class RedisOtpService {
+public class RedisOtpService implements IRedisOtpService {
 
     private final RedisTemplate<String, String> redisTemplate;
     private final RedisScript<Long> saveOtpScript;
@@ -17,6 +18,7 @@ public class RedisOtpService {
     private static final String PREFIX = "otp:";
     private static final long OTP_TTL_MINUTES = 5;
 
+    @Override
     public boolean saveOtp(String email, String otp) {
         String key = PREFIX + email;
 
@@ -30,14 +32,17 @@ public class RedisOtpService {
         return result == 1;
     }
 
+    @Override
     public String getOtp(String email) {
         return (String) redisTemplate.opsForValue().get(PREFIX + email);
     }
 
+    @Override
     public void deleteOtp(String email) {
         redisTemplate.delete(PREFIX + email);
     }
 
+    @Override
     public boolean validateOtp(String email, String inputOtp) {
         String key = PREFIX + email;
 
