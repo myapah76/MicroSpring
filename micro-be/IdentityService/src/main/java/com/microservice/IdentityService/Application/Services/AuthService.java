@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservice.Constants.KafkaTopics;
 import com.microservice.Events.OtpNotificationEvent;
 import com.microservice.Events.OtpType;
+import com.microservice.IdentityService.Application.Abstrations.Cache.IRedisTokenService;
 import com.microservice.IdentityService.Application.Abstrations.IAuthService;
 import com.microservice.IdentityService.Application.Abstrations.IOutboxService;
 import com.microservice.IdentityService.Application.Dtos.Auth.PendingUser;
@@ -48,7 +49,7 @@ public class AuthService implements IAuthService {
     private final JwtService jwtService;
     private final RedisTemplate<String, Object> redisTemplate;
     private final RefreshTokenService refreshTokenService;
-    private final RedisTokenService redisTokenService;
+    private final IRedisTokenService redisTokenService;
     private final IOutboxService outboxService;
     private final UserProfile userMapper;
     private final ObjectMapper objectMapper;
