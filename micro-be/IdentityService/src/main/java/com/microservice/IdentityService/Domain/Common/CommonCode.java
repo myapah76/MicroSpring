@@ -1,4 +1,4 @@
-package com.microservice.IdentityService.Application.Exceptions.Code;
+package com.microservice.IdentityService.Domain.Common;
 
 import org.springframework.stereotype.Component;
 

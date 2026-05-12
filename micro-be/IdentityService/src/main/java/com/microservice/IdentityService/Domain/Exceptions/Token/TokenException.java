@@ -1,4 +1,4 @@
-package com.microservice.IdentityService.Application.Exceptions.Token;
+package com.microservice.IdentityService.Domain.Exceptions.Token;
 
 import lombok.Getter;
 

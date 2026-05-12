@@ -16,12 +16,11 @@ import com.microservice.IdentityService.Application.Dtos.User.Request.LoginReque
 import com.microservice.IdentityService.Application.Dtos.User.Request.RefreshRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.AuthResponse;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
-import com.microservice.IdentityService.Application.Exceptions.Auth.EmailNotFoundException;
-import com.microservice.IdentityService.Application.Exceptions.Auth.WrongOtpCodeException;
-import com.microservice.IdentityService.Application.Exceptions.Auth.WrongPasswordException;
-import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
+import com.microservice.IdentityService.Domain.Exceptions.Auth.EmailNotFoundException;
+import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongOtpCodeException;
+import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongPasswordException;
+import com.microservice.IdentityService.Domain.Common.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
-import com.microservice.IdentityService.Infrastucture.Persistences.Cache.RedisTokenService;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IRoleRepository;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
 import com.microservice.IdentityService.Domain.Entities.Role;

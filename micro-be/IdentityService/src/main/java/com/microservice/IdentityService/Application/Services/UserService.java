@@ -6,8 +6,8 @@ import com.microservice.IdentityService.Application.Dtos.User.Request.ChangePass
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
-import com.microservice.IdentityService.Application.Exceptions.Auth.WrongPasswordException;
-import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
+import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongPasswordException;
+import com.microservice.IdentityService.Domain.Common.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IRoleRepository;
 import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;

@@ -1,6 +1,6 @@
-package com.microservice.IdentityService.Application.Exceptions.Auth;
+package com.microservice.IdentityService.Domain.Exceptions.Auth;
 
-import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
+import com.microservice.IdentityService.Domain.Common.CommonCode;
 
 public class WrongPasswordException extends AuthException{
     public WrongPasswordException(String message) {

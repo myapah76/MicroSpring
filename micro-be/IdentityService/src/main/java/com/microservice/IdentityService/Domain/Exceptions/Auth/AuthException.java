@@ -1,4 +1,4 @@
-package com.microservice.IdentityService.Application.Exceptions.Auth;
+package com.microservice.IdentityService.Domain.Exceptions.Auth;
 
 import lombok.Getter;
 

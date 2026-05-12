@@ -1,8 +1,8 @@
 package com.microservice.IdentityService.API.Middlewares;
 
 import com.microservice.IdentityService.Application.Dtos.ErrorResponse;
-import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
-import com.microservice.IdentityService.Application.Exceptions.Token.TokenException;
+import com.microservice.IdentityService.Domain.Common.CommonCode;
+import com.microservice.IdentityService.Domain.Exceptions.Token.TokenException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

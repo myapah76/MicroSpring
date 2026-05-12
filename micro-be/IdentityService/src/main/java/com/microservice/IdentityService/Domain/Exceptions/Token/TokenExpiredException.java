@@ -1,6 +1,6 @@
-package com.microservice.IdentityService.Application.Exceptions.Token;
+package com.microservice.IdentityService.Domain.Exceptions.Token;
 
-import com.microservice.IdentityService.Application.Exceptions.Code.CommonCode;
+import com.microservice.IdentityService.Domain.Common.CommonCode;
 
 public class TokenExpiredException extends TokenException {
     public TokenExpiredException(String message) {

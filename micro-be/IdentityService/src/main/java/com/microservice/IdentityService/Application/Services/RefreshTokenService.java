@@ -2,10 +2,9 @@ package com.microservice.IdentityService.Application.Services;
 
 import com.microservice.IdentityService.Application.Abstrations.IRefreshTokenService;
 import com.microservice.IdentityService.Application.Dtos.User.CustomUserDetails;
-import com.microservice.IdentityService.Application.Exceptions.Token.InvalidTokenException;
-import com.microservice.IdentityService.Application.Exceptions.Token.TokenException;
-import com.microservice.IdentityService.Application.Exceptions.Token.TokenExpiredException;
-import com.microservice.IdentityService.Application.Exceptions.Token.TokenRevokedException;
+import com.microservice.IdentityService.Domain.Exceptions.Token.InvalidTokenException;
+import com.microservice.IdentityService.Domain.Exceptions.Token.TokenExpiredException;
+import com.microservice.IdentityService.Domain.Exceptions.Token.TokenRevokedException;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
 import com.microservice.IdentityService.Domain.Entities.User;
 import lombok.RequiredArgsConstructor;
