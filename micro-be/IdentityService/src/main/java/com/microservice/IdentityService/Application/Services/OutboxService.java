@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservice.IdentityService.Domain.Entities.OutboxMessage;
 import com.microservice.IdentityService.Application.Persistences.Repositories.OutboxRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -15,6 +16,7 @@ public class OutboxService implements com.microservice.IdentityService.Applicati
     private final OutboxRepository outboxRepository;
     private final ObjectMapper objectMapper;
 
+    @Async
     public void add(Object event, String type) {
         try {
             OutboxMessage message = new OutboxMessage();
