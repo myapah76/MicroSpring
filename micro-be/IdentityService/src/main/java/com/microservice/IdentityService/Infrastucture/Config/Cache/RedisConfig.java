@@ -1,4 +1,4 @@
-package com.microservice.IdentityService.Infrastucture.Cache;
+package com.microservice.IdentityService.Infrastucture.Config.Cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
