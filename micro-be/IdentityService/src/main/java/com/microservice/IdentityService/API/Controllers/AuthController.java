@@ -1,13 +1,12 @@
 package com.microservice.IdentityService.API.Controllers;
 
-import com.microservice.IdentityService.Application.Abstrations.IAuthService;
+import com.microservice.IdentityService.Application.Abstrations.AuthService;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.ConfirmOtpRequest;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.RegisterRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.LoginRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.RefreshRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.AuthResponse;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
-import com.microservice.IdentityService.Application.Services.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final IAuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@Valid @RequestBody RegisterRequest request) {

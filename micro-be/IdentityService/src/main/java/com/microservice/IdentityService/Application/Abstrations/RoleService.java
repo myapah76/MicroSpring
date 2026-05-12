@@ -7,7 +7,7 @@ import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleRespo
 import java.util.List;
 import java.util.UUID;
 
-public interface IRoleService {
+public interface RoleService {
     RoleResponse createRole(CreateRoleRequest request);
     List<RoleResponse> getAll();
     RoleResponse getById(UUID id);

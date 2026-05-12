@@ -1,7 +1,5 @@
 package com.microservice.IdentityService.Application.Abstrations;
 
-import com.microservice.Constants.KafkaTopics;
-
-public interface IOutboxService {
+public interface OutboxService {
     void add(Object event, String type);
 }

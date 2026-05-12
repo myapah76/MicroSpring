@@ -6,8 +6,7 @@ import com.microservice.Constants.KafkaTopics;
 import com.microservice.Events.OtpNotificationEvent;
 import com.microservice.Events.OtpType;
 import com.microservice.IdentityService.Application.Abstrations.Cache.IRedisTokenService;
-import com.microservice.IdentityService.Application.Abstrations.IAuthService;
-import com.microservice.IdentityService.Application.Abstrations.IOutboxService;
+import com.microservice.IdentityService.Application.Abstrations.OutboxService;
 import com.microservice.IdentityService.Application.Dtos.Auth.PendingUser;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.ConfirmOtpRequest;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.RegisterRequest;
@@ -21,11 +20,11 @@ import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongOtpCodeExcep
 import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongPasswordException;
 import com.microservice.IdentityService.Domain.Common.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IRoleRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.RoleRepository;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -41,18 +40,18 @@ import java.util.HexFormat;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements IAuthService {
+public class AuthService implements com.microservice.IdentityService.Application.Abstrations.AuthService {
 
-    private final IUserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final RedisTemplate<String, Object> redisTemplate;
     private final RefreshTokenService refreshTokenService;
     private final IRedisTokenService redisTokenService;
-    private final IOutboxService outboxService;
+    private final OutboxService outboxService;
     private final UserProfile userMapper;
     private final ObjectMapper objectMapper;
-    private final IRoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
 
     @Override

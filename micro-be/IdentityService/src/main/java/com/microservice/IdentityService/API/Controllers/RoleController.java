@@ -1,10 +1,9 @@
 package com.microservice.IdentityService.API.Controllers;
 
-import com.microservice.IdentityService.Application.Abstrations.IRoleService;
+import com.microservice.IdentityService.Application.Abstrations.RoleService;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CommonRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CreateRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;
-import com.microservice.IdentityService.Application.Services.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoleController {
 
-    private final IRoleService roleService;
+    private final RoleService roleService;
 
     @PostMapping
     public ResponseEntity<RoleResponse> createRole(

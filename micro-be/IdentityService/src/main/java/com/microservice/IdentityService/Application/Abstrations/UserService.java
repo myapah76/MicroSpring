@@ -8,7 +8,7 @@ import com.microservice.IdentityService.Application.Dtos.User.Respone.UserRespon
 import java.util.List;
 import java.util.UUID;
 
-public interface IUserService {
+public interface UserService {
     UserResponse createUser(CreateUserRequest request);
     UserResponse getById(UUID id);
     List<UserResponse> getAll();

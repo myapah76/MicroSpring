@@ -1,7 +1,6 @@
 package com.microservice.IdentityService.Application.Services;
 
 
-import com.microservice.IdentityService.Application.Abstrations.IUserService;
 import com.microservice.IdentityService.Application.Dtos.User.Request.ChangePasswordRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;
@@ -9,8 +8,8 @@ import com.microservice.IdentityService.Application.Dtos.User.Respone.UserRespon
 import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongPasswordException;
 import com.microservice.IdentityService.Domain.Common.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IRoleRepository;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.RoleRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.UserRepository;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +21,10 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements IUserService {
+public class UserService implements com.microservice.IdentityService.Application.Abstrations.UserService {
 
-    private final IUserRepository userRepository;
-    private final IRoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserProfile userMapper;
     private final PasswordEncoder passwordEncoder;
 
