@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface INotificationRepository extends JpaRepository<NotificationLog, UUID> {
+public interface NotificationRepository extends JpaRepository<NotificationLog, UUID> {
 
     // Equivalent to GetByRecipientAsync
     List<NotificationLog> findByRecipient(String recipient);

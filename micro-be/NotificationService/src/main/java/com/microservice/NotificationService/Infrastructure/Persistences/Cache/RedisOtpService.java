@@ -1,6 +1,5 @@
 package com.microservice.NotificationService.Infrastructure.Persistences.Cache;
 
-import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisOtpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -8,7 +7,7 @@ import org.springframework.data.redis.core.script.RedisScript;
 import java.util.Collections;
 @Service
 @RequiredArgsConstructor
-public class RedisOtpService implements IRedisOtpService {
+public class RedisOtpService implements com.microservice.NotificationService.Application.Abstractions.Cache.RedisOtpService {
 
     private final RedisTemplate<String, String> redisTemplate;
     private final RedisScript<Long> saveOtpScript;

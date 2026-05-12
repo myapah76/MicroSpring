@@ -1,6 +1,5 @@
 package com.microservice.NotificationService.Infrastructure.Persistences.Cache;
 
-import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisIdempotencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class RedisIdempotencyService implements IRedisIdempotencyService {
+public class RedisIdempotencyService implements com.microservice.NotificationService.Application.Abstractions.Cache.RedisIdempotencyService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 

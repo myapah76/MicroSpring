@@ -1,11 +1,11 @@
 package com.microservice.NotificationService.Application.EvenHanlder;
 
-import com.microservice.Abstractions.IIntegrationEventHandler;
-import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisIdempotencyService;
-import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisOtpService;
-import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisRateLimitService;
+import com.microservice.Abstractions.IntegrationEventHandler;
+import com.microservice.NotificationService.Application.Abstractions.Cache.RedisIdempotencyService;
+import com.microservice.NotificationService.Application.Abstractions.Cache.RedisOtpService;
+import com.microservice.NotificationService.Application.Abstractions.Cache.RedisRateLimitService;
 import com.microservice.Events.OtpNotificationEvent;
-import com.microservice.NotificationService.Application.Abstractions.IEmailSender;
+import com.microservice.NotificationService.Application.Abstractions.EmailSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OtpNotificationHandler implements IIntegrationEventHandler<OtpNotificationEvent> { // Implement your interface{
+public class OtpNotificationHandler implements IntegrationEventHandler<OtpNotificationEvent> { // Implement your interface{
 
-    private final IRedisOtpService otpService;
-    private final IRedisRateLimitService rateLimitService;
-    private final IRedisIdempotencyService idempotencyService;
-    private final IEmailSender emailSender;
+    private final RedisOtpService otpService;
+    private final RedisRateLimitService rateLimitService;
+    private final RedisIdempotencyService idempotencyService;
+    private final EmailSender emailSender;
 
         @Override
         public void handle(OtpNotificationEvent event) {

@@ -1,6 +1,5 @@
 package com.microservice.NotificationService.Infrastructure.Services;
 
-import com.microservice.NotificationService.Application.Abstractions.IEmailSender;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EmailSender implements IEmailSender {
+public class EmailSender implements com.microservice.NotificationService.Application.Abstractions.EmailSender {
 
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;

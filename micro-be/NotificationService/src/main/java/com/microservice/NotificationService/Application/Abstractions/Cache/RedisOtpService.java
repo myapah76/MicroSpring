@@ -1,6 +1,6 @@
 package com.microservice.NotificationService.Application.Abstractions.Cache;
 
-public interface IRedisOtpService {
+public interface RedisOtpService {
 
     boolean saveOtp(String email, String otp);
 

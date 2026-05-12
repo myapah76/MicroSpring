@@ -1,16 +1,13 @@
 package com.microservice.Infrastructure.Kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microservice.Abstractions.IIntegrationEventHandler;
+import com.microservice.Abstractions.IntegrationEventHandler;
 import com.microservice.Constants.KafkaTopics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
 
@@ -52,8 +49,8 @@ public class KafkaConsumer {
             }
             Object event = objectMapper.readValue(message, eventType);
 
-            IIntegrationEventHandler handler =
-                    (IIntegrationEventHandler) context.getBean(handlerType);
+            IntegrationEventHandler handler =
+                    (IntegrationEventHandler) context.getBean(handlerType);
 
             handler.handle(event);
 

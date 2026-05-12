@@ -1,5 +1,5 @@
 package com.microservice.Abstractions;
 
-public interface IIntegrationEventHandler<T> {
+public interface IntegrationEventHandler<T> {
     void handle(T event);
 }

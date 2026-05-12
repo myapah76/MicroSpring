@@ -1,5 +1,5 @@
 package com.microservice.Abstractions;
 
-public interface IKafkaProducer {
+public interface KafkaProducer {
     void publish(String topic, String message);
 }

@@ -1,6 +1,5 @@
 package com.microservice.NotificationService.Infrastructure.Persistences.Cache;
 
-import com.microservice.NotificationService.Application.Abstractions.Cache.IRedisRateLimitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -10,7 +9,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class RedisRateLimitService implements IRedisRateLimitService {
+public class RedisRateLimitService implements com.microservice.NotificationService.Application.Abstractions.Cache.RedisRateLimitService {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final RedisScript<Long> rateLimitScript;
