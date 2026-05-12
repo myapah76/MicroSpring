@@ -1,7 +1,7 @@
 package com.microservice.IdentityService.Infrastucture.Config;
 
 import com.microservice.IdentityService.Application.Dtos.User.CustomUserDetails;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.UserRepository;
 import com.microservice.IdentityService.Application.Services.JwtService;
 import com.microservice.IdentityService.Infrastucture.Persistences.Cache.RedisTokenService;
 import com.microservice.IdentityService.Domain.Entities.User;
@@ -22,7 +22,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final RedisTokenService redisTokenService;
-    private final IUserRepository  userRepository;
+    private final UserRepository userRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,

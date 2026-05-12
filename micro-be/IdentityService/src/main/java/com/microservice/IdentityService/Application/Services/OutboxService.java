@@ -1,21 +1,18 @@
 package com.microservice.IdentityService.Application.Services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microservice.Constants.KafkaTopics;
-import com.microservice.IdentityService.Application.Abstrations.IOutboxService;
 import com.microservice.IdentityService.Domain.Entities.OutboxMessage;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IOutboxRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class OutboxService implements IOutboxService {
+public class OutboxService implements com.microservice.IdentityService.Application.Abstrations.OutboxService {
 
-    private final IOutboxRepository outboxRepository;
+    private final OutboxRepository outboxRepository;
     private final ObjectMapper objectMapper;
 
     public void add(Object event, String type) {

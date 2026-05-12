@@ -2,9 +2,8 @@ package com.microservice.IdentityService.Infrastucture.scheduler;
 
 import com.microservice.Abstractions.IKafkaProducer;
 import com.microservice.Constants.KafkaTopics;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IOutboxRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.OutboxRepository;
 import com.microservice.IdentityService.Domain.Entities.OutboxMessage;
-import com.microservice.Infrastructure.Kafka.KafkaProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,7 +18,7 @@ import java.util.Map;
 @Slf4j
 public class OutboxPublisherJob {
 
-    private final IOutboxRepository outboxRepository;
+    private final OutboxRepository outboxRepository;
     private final IKafkaProducer kafkaProducer;
 
     @Scheduled(fixedDelay = 2000) // 2s

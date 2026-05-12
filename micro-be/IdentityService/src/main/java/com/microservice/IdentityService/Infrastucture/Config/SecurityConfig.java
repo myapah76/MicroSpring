@@ -1,6 +1,6 @@
 package com.microservice.IdentityService.Infrastucture.Config;
 
-import com.microservice.IdentityService.Application.Persistences.Repositories.IUserRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.UserRepository;
 import com.microservice.IdentityService.Application.Services.JwtService;
 import com.microservice.IdentityService.Infrastucture.Persistences.Cache.RedisTokenService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtService jwtService;
     private final RedisTokenService redisTokenService;
-    private final IUserRepository userRepository;
+    private final UserRepository userRepository;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

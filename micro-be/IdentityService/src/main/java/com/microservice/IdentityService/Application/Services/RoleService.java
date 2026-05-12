@@ -1,11 +1,10 @@
 package com.microservice.IdentityService.Application.Services;
 
-import com.microservice.IdentityService.Application.Abstrations.IRoleService;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CommonRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CreateRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;
 import com.microservice.IdentityService.Application.Mapper.RoleProfile;
-import com.microservice.IdentityService.Application.Persistences.Repositories.IRoleRepository;
+import com.microservice.IdentityService.Application.Persistences.Repositories.RoleRepository;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +14,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService  implements IRoleService {
+public class RoleService  implements com.microservice.IdentityService.Application.Abstrations.RoleService {
 
-    private final IRoleRepository roleRepository;
+    private final RoleRepository roleRepository;
     private final RoleProfile roleProfile;
 
     @Override

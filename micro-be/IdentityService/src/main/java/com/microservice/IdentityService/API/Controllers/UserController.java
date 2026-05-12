@@ -1,11 +1,10 @@
 package com.microservice.IdentityService.API.Controllers;
 
-import com.microservice.IdentityService.Application.Abstrations.IUserService;
+import com.microservice.IdentityService.Application.Abstrations.UserService;
 import com.microservice.IdentityService.Application.Dtos.User.Request.ChangePasswordRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
-import com.microservice.IdentityService.Application.Services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final IUserService userService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(
