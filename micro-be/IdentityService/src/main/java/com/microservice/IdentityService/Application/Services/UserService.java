@@ -12,6 +12,8 @@ import com.microservice.IdentityService.Application.Abstrations.Repositories.Rol
 import com.microservice.IdentityService.Application.Abstrations.Repositories.UserRepository;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
+import com.microservice.IdentityService.Domain.Exceptions.User.UserExistException;
+import com.microservice.IdentityService.Domain.Exceptions.User.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class UserService implements com.microservice.IdentityService.Application
         UserCommonRequest userCommonRequest = request.getUserCommonRequest();
         // 1. Check email exist
         if (userRepository.findByEmail(userCommonRequest.getEmail()).isPresent()){
-            throw new RuntimeException(ErrorCode.Email_Already_Registered);
+            throw new UserExistException(ErrorCode.Email_Already_Registered);
         }
 
         User user = userMapper.fromCreateRequest(request);
@@ -51,7 +53,7 @@ public class UserService implements com.microservice.IdentityService.Application
     @Override
     public UserResponse getById(UUID id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(ErrorCode.User_Not_Found));
+                .orElseThrow(() -> new UserNotFoundException(ErrorCode.User_Not_Found));
 
         return userMapper.toResponse(user);
     }
@@ -66,7 +68,7 @@ public class UserService implements com.microservice.IdentityService.Application
     @Transactional
     public UserResponse update(UserCommonRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException(ErrorCode.User_Not_Found));
+                .orElseThrow(() -> new UserNotFoundException(ErrorCode.User_Not_Found));
         Role role = null;
         if (request.getRoleId() != null) {
             role = roleRepository.findById(UUID.fromString(request.getRoleId()))
@@ -81,7 +83,7 @@ public class UserService implements com.microservice.IdentityService.Application
     @Transactional
     public UserResponse changePassword(ChangePasswordRequest request){
         User user = userRepository.findById(request.getId())
-                .orElseThrow(() -> new RuntimeException(ErrorCode.User_Not_Found));
+                .orElseThrow(() -> new UserNotFoundException(ErrorCode.User_Not_Found));
         if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
             throw new WrongPasswordException(ErrorCode.Wrong_Password);
         }
@@ -93,7 +95,7 @@ public class UserService implements com.microservice.IdentityService.Application
     @Override
     public void deleteById(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException(ErrorCode.User_Not_Found);
+            throw new UserNotFoundException(ErrorCode.User_Not_Found);
         }
         userRepository.deleteById(id);
     }
