@@ -16,7 +16,6 @@ public class OutboxService implements com.microservice.IdentityService.Applicati
     private final OutboxRepository outboxRepository;
     private final ObjectMapper objectMapper;
 
-    @Async
     public void add(Object event, String type) {
         try {
             OutboxMessage message = new OutboxMessage();
