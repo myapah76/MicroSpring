@@ -3,7 +3,7 @@ package com.microservice.IdentityService.Domain.Common;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommonCode {
+public class ErrorCode {
     //Token
     public static final String TOKEN_EXPIRED = "TOKEN_EXPIRED";
     public static final String TOKEN_INVALID = "TOKEN_INVALID";

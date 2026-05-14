@@ -1,7 +1,7 @@
 package com.microservice.IdentityService.API.Middlewares;
 
 import com.microservice.IdentityService.Application.Dtos.ErrorResponse;
-import com.microservice.IdentityService.Domain.Common.CommonCode;
+import com.microservice.IdentityService.Domain.Common.ErrorCode;
 import com.microservice.IdentityService.Domain.Exceptions.Token.TokenException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
         return buildError(
                 HttpStatus.NOT_FOUND,
                 ex.getMessage(),
-                CommonCode.NOT_FOUND,
+                ErrorCode.NOT_FOUND,
                 request.getRequestURI()
         );
     }
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
         return buildError(
                 HttpStatus.BAD_REQUEST,
                 message,
-                CommonCode.VALIDATION_ERROR,
+                ErrorCode.VALIDATION_ERROR,
                 request.getRequestURI()
         );
     }
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
         return buildError(
                 HttpStatus.BAD_REQUEST,
                 ex.getMessage(),
-                CommonCode.BAD_REQUEST,
+                ErrorCode.BAD_REQUEST,
                 request.getRequestURI()
         );
     }
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
         return buildError(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 "Internal server error",
-                CommonCode.INTERNAL_ERROR,
+                ErrorCode.INTERNAL_ERROR,
                 request.getRequestURI()
         );
     }
