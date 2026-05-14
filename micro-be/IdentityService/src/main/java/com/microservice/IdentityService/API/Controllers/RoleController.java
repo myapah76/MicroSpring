@@ -1,6 +1,6 @@
 package com.microservice.IdentityService.API.Controllers;
 
-import com.microservice.IdentityService.Application.Abstrations.RoleService;
+import com.microservice.IdentityService.Application.Abstrations.Service.RoleService;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CommonRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CreateRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;

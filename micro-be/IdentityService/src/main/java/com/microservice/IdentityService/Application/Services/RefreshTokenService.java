@@ -1,7 +1,7 @@
 package com.microservice.IdentityService.Application.Services;
 
 import com.microservice.IdentityService.Application.Dtos.User.CustomUserDetails;
-import com.microservice.IdentityService.Application.Persistences.Repositories.RefreshTokenRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.RefreshTokenRepository;
 import com.microservice.IdentityService.Domain.Exceptions.Token.InvalidTokenException;
 import com.microservice.IdentityService.Domain.Exceptions.Token.TokenExpiredException;
 import com.microservice.IdentityService.Domain.Exceptions.Token.TokenRevokedException;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RefreshTokenService implements com.microservice.IdentityService.Application.Abstrations.RefreshTokenService {
+public class RefreshTokenService implements com.microservice.IdentityService.Application.Abstrations.Service.RefreshTokenService {
 
     private final RefreshTokenRepository IRefreshTokenRepository;
     private final JwtService jwtService;

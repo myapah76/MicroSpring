@@ -4,22 +4,24 @@ import com.microservice.IdentityService.Application.Dtos.Role.Request.CommonRole
 import com.microservice.IdentityService.Application.Dtos.Role.Request.CreateRoleRequest;
 import com.microservice.IdentityService.Application.Dtos.Role.Response.RoleResponse;
 import com.microservice.IdentityService.Application.Mapper.RoleProfile;
-import com.microservice.IdentityService.Application.Persistences.Repositories.RoleRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.RoleRepository;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService  implements com.microservice.IdentityService.Application.Abstrations.RoleService {
+public class RoleService  implements com.microservice.IdentityService.Application.Abstrations.Service.RoleService {
 
     private final RoleRepository roleRepository;
     private final RoleProfile roleProfile;
 
     @Override
+    @Transactional
     public RoleResponse createRole(CreateRoleRequest request) {
         if (roleRepository.findByName(request.getCommonRoleRequest().getName()).isPresent()) {
             throw new RuntimeException("Role name already exists");

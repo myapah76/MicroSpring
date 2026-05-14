@@ -6,7 +6,7 @@ import com.microservice.Constants.KafkaTopics;
 import com.microservice.Events.OtpNotificationEvent;
 import com.microservice.Events.OtpType;
 import com.microservice.IdentityService.Application.Abstrations.Cache.IRedisTokenService;
-import com.microservice.IdentityService.Application.Abstrations.OutboxService;
+import com.microservice.IdentityService.Application.Abstrations.Service.OutboxService;
 import com.microservice.IdentityService.Application.Dtos.Auth.PendingUser;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.ConfirmOtpRequest;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.RegisterRequest;
@@ -20,11 +20,11 @@ import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongOtpCodeExcep
 import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongPasswordException;
 import com.microservice.IdentityService.Domain.Common.CommonCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
-import com.microservice.IdentityService.Application.Persistences.Repositories.RoleRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.RoleRepository;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
-import com.microservice.IdentityService.Application.Persistences.Repositories.UserRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +40,7 @@ import java.util.HexFormat;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements com.microservice.IdentityService.Application.Abstrations.AuthService {
+public class AuthService implements com.microservice.IdentityService.Application.Abstrations.Service.AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -55,6 +55,7 @@ public class AuthService implements com.microservice.IdentityService.Application
 
 
     @Override
+    @Transactional
     public void register(RegisterRequest request) {
 
         String key = "PENDING_USER:" + request.email();
