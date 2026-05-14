@@ -1,12 +1,13 @@
 package com.microservice.IdentityService.API.Controllers;
 
-import com.microservice.IdentityService.Application.Abstrations.AuthService;
+import com.microservice.IdentityService.Application.Abstrations.Service.AuthService;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.ConfirmOtpRequest;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.RegisterRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.LoginRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.RefreshRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.AuthResponse;
 import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
+import com.microservice.IdentityService.Domain.Exceptions.Token.TokenExpiredException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class AuthController {
         String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")) {
-            throw new RuntimeException("Missing token");
+            throw new TokenExpiredException("Missing token");
         }
 
         String token = header.substring(7);
