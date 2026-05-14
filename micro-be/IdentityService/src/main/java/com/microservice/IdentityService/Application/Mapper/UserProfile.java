@@ -14,7 +14,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserProfile {
     private final RoleProfile roleProfile;
-    private final PasswordEncoder passwordEncoder;
 
     public UserResponse toResponse(User user) {
         if (user == null) return null;
@@ -57,7 +56,7 @@ public class UserProfile {
         user.setDateOfBirth(common.getDateOfBirth());
         user.setAvatarUrl(common.getAvatarUrl());
         user.setAvatarPublicId(common.getAvatarPublicId());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(user.getPassword());
         return user;
     }
 

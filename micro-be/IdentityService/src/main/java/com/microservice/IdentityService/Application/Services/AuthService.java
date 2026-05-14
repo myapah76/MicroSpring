@@ -6,7 +6,7 @@ import com.microservice.Constants.KafkaTopics;
 import com.microservice.Events.OtpNotificationEvent;
 import com.microservice.Events.OtpType;
 import com.microservice.IdentityService.Application.Abstrations.Cache.IRedisTokenService;
-import com.microservice.IdentityService.Application.Abstrations.OutboxService;
+import com.microservice.IdentityService.Application.Abstrations.Service.OutboxService;
 import com.microservice.IdentityService.Application.Dtos.Auth.PendingUser;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.ConfirmOtpRequest;
 import com.microservice.IdentityService.Application.Dtos.Auth.Request.RegisterRequest;
@@ -18,13 +18,13 @@ import com.microservice.IdentityService.Application.Dtos.User.Respone.UserRespon
 import com.microservice.IdentityService.Domain.Exceptions.Auth.EmailNotFoundException;
 import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongOtpCodeException;
 import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongPasswordException;
-import com.microservice.IdentityService.Domain.Common.CommonCode;
+import com.microservice.IdentityService.Domain.Common.ErrorCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
-import com.microservice.IdentityService.Application.Persistences.Repositories.RoleRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.RoleRepository;
 import com.microservice.IdentityService.Domain.Entities.RefreshToken;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
-import com.microservice.IdentityService.Application.Persistences.Repositories.UserRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +40,7 @@ import java.util.HexFormat;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements com.microservice.IdentityService.Application.Abstrations.AuthService {
+public class AuthService implements com.microservice.IdentityService.Application.Abstrations.Service.AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -55,6 +55,7 @@ public class AuthService implements com.microservice.IdentityService.Application
 
 
     @Override
+    @Transactional
     public void register(RegisterRequest request) {
 
         String key = "PENDING_USER:" + request.email();
@@ -64,7 +65,7 @@ public class AuthService implements com.microservice.IdentityService.Application
 
         if (userRepository.findByEmail(request.email()).isPresent()
                 || redisTemplate.hasKey(key)) {
-            throw new RuntimeException(CommonCode.Email_Already_Registered);
+            throw new RuntimeException(ErrorCode.Email_Already_Registered);
         }
         // 2. create pending user object (staging in Redis)
         PendingUser pendingUser = new PendingUser(
@@ -114,7 +115,7 @@ public class AuthService implements com.microservice.IdentityService.Application
         }
 
         if (pendingUser == null) {
-            throw new RuntimeException(CommonCode.Pending_User_Not_Found);
+            throw new RuntimeException(ErrorCode.Pending_User_Not_Found);
         }
         if (request.otp() == null ||
                 !hashOtp(request.otp()).equals(pendingUser.otp())) {
@@ -131,7 +132,7 @@ public class AuthService implements com.microservice.IdentityService.Application
 
 
         Role role = roleRepository.findByName("Customer")
-                .orElseThrow(() -> new RuntimeException(CommonCode.Role_Not_Found));
+                .orElseThrow(() -> new RuntimeException(ErrorCode.Role_Not_Found));
         user.setRole(role);
         user.setCreatedAt(OffsetDateTime.now());
 
@@ -144,12 +145,12 @@ public class AuthService implements com.microservice.IdentityService.Application
     public AuthResponse login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new EmailNotFoundException(CommonCode.Email_Not_Found));
+                .orElseThrow(() -> new EmailNotFoundException(ErrorCode.Email_Not_Found));
         if (user.getIsBlocked()) {
             throw new RuntimeException("User is blocked");
         }
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new WrongPasswordException(CommonCode.Wrong_Password);
+            throw new WrongPasswordException(ErrorCode.Wrong_Password);
         }
         UserDetails userDetails = new CustomUserDetails(user);
         String accessToken = jwtService.generateToken(userDetails);

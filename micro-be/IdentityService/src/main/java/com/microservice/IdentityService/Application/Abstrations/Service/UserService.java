@@ -1,0 +1,18 @@
+package com.microservice.IdentityService.Application.Abstrations.Service;
+
+import com.microservice.IdentityService.Application.Dtos.User.Request.ChangePasswordRequest;
+import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
+import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;
+import com.microservice.IdentityService.Application.Dtos.User.Respone.UserResponse;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface UserService {
+    UserResponse createUser(CreateUserRequest request);
+    UserResponse getById(UUID id);
+    List<UserResponse> getAll();
+    UserResponse update(UserCommonRequest request);
+    UserResponse changePassword(ChangePasswordRequest request);
+    void deleteById(UUID id);
+}

@@ -1,9 +1,9 @@
 package com.microservice.IdentityService.Domain.Exceptions.Auth;
 
-import com.microservice.IdentityService.Domain.Common.CommonCode;
+import com.microservice.IdentityService.Domain.Common.ErrorCode;
 
 public class WrongOtpCodeException extends AuthException {
     public WrongOtpCodeException(String message) {
-        super(CommonCode.Wrong_Otp_Code, message);
+        super(ErrorCode.Wrong_Otp_Code, message);
     }
 }
