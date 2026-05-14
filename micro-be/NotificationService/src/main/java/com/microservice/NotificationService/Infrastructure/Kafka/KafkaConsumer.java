@@ -1,24 +1,16 @@
-package com.microservice.Infrastructure.Kafka;
+package com.microservice.NotificationService.Infrastructure.Kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservice.Abstractions.IntegrationEventHandler;
-import com.microservice.Constants.KafkaTopics;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
-@ConditionalOnProperty(
-        name = "kafka.consumer.enabled",
-        havingValue = "true",
-        matchIfMissing = false
-)
 public class KafkaConsumer {
 
     private final KafkaConsumerRegistry registry;
@@ -26,20 +18,15 @@ public class KafkaConsumer {
     private final ApplicationContext context;
 
     @KafkaListener(
-            topics = {
-                    KafkaTopics.OTP_NOTIFICATIONS,
-                    KafkaTopics.OTP_FORGET_PASSWORD
-            },
-            groupId = "default-group-v1"
+            topics = {"#{@kafkaConsumerRegistry.getAllTopics()}"},
+            groupId = "${spring.kafka.consumer.group-id}"
     )
     public void consume(org.apache.kafka.clients.consumer.ConsumerRecord<String, String> record) {
-        // Get the raw values from the record
         String message = record.value();
         String topic = record.topic();
 
         try {
             log.info("Incoming topic: '{}'", topic);
-            log.info("Registered topics: {}", registry.getAllTopics());
             Class<?> eventType = registry.getEventType(topic);
             Class<?> handlerType = registry.getHandler(topic);
 
@@ -47,10 +34,12 @@ public class KafkaConsumer {
                 log.error("No handler/event type found for topic {}", topic);
                 return;
             }
+
             Object event = objectMapper.readValue(message, eventType);
 
-            IntegrationEventHandler handler =
-                    (IntegrationEventHandler) context.getBean(handlerType);
+            @SuppressWarnings("unchecked")
+            IntegrationEventHandler<Object> handler =
+                    (IntegrationEventHandler<Object>) context.getBean(handlerType);
 
             handler.handle(event);
 

@@ -3,7 +3,7 @@ package com.microservice.NotificationService.Infrastructure.Configurations;
 import com.microservice.Constants.KafkaTopics;
 import com.microservice.Events.ForgetPasswordOtpEvent;
 import com.microservice.Events.OtpNotificationEvent;
-import com.microservice.Infrastructure.Kafka.KafkaConsumerRegistry;
+import com.microservice.NotificationService.Infrastructure.Kafka.KafkaConsumerRegistry;
 import com.microservice.NotificationService.Application.EvenHanlder.OtpNotificationHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

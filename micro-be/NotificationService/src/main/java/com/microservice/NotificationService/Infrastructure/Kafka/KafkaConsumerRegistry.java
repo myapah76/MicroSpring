@@ -1,4 +1,4 @@
-package com.microservice.Infrastructure.Kafka;
+package com.microservice.NotificationService.Infrastructure.Kafka;
 
 import org.springframework.stereotype.Component;
 
@@ -23,6 +23,7 @@ public class KafkaConsumerRegistry {
     public Class<?> getHandler(String topic) {
         return handlers.get(topic);
     }
+
     public String[] getAllTopics() {
         return eventTypes.keySet().toArray(new String[0]);
     }

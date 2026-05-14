@@ -1,10 +1,14 @@
-package com.microservice.Infrastructure.Config;
+package com.microservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Jackson config dùng chung — auto-configured khi service import shared-kernel.
+ * Mỗi service có thể override bean này nếu cần config riêng.
+ */
 @Configuration
 public class JacksonConfig {
 

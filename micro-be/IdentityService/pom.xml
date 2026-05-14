@@ -107,6 +107,12 @@
             <version>1.0.0</version>
         </dependency>
 
+        <!-- Spring Kafka: producer only -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
         <!-- TEST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
