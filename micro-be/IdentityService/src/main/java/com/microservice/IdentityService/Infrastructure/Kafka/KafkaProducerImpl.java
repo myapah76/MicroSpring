@@ -1,4 +1,4 @@
-package com.microservice.IdentityService.Infrastucture.Kafka;
+package com.microservice.IdentityService.Infrastructure.Kafka;
 
 import com.microservice.Abstractions.KafkaProducer;
 import lombok.RequiredArgsConstructor;
