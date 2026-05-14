@@ -1,6 +1,6 @@
 package com.microservice.IdentityService.API.Controllers;
 
-import com.microservice.IdentityService.Application.Abstrations.UserService;
+import com.microservice.IdentityService.Application.Abstrations.Service.UserService;
 import com.microservice.IdentityService.Application.Dtos.User.Request.ChangePasswordRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.CreateUserRequest;
 import com.microservice.IdentityService.Application.Dtos.User.Request.UserCommonRequest;

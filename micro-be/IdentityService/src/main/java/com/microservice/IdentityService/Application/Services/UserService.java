@@ -8,20 +8,21 @@ import com.microservice.IdentityService.Application.Dtos.User.Respone.UserRespon
 import com.microservice.IdentityService.Domain.Exceptions.Auth.WrongPasswordException;
 import com.microservice.IdentityService.Domain.Common.ErrorCode;
 import com.microservice.IdentityService.Application.Mapper.UserProfile;
-import com.microservice.IdentityService.Application.Persistences.Repositories.RoleRepository;
-import com.microservice.IdentityService.Application.Persistences.Repositories.UserRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.RoleRepository;
+import com.microservice.IdentityService.Application.Abstrations.Repositories.UserRepository;
 import com.microservice.IdentityService.Domain.Entities.Role;
 import com.microservice.IdentityService.Domain.Entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements com.microservice.IdentityService.Application.Abstrations.UserService {
+public class UserService implements com.microservice.IdentityService.Application.Abstrations.Service.UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -29,6 +30,7 @@ public class UserService implements com.microservice.IdentityService.Application
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public UserResponse createUser(CreateUserRequest request) {
 
         UserCommonRequest userCommonRequest = request.getUserCommonRequest();
@@ -61,6 +63,7 @@ public class UserService implements com.microservice.IdentityService.Application
                 .toList();
     }
     @Override
+    @Transactional
     public UserResponse update(UserCommonRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException(ErrorCode.User_Not_Found));
@@ -75,6 +78,7 @@ public class UserService implements com.microservice.IdentityService.Application
     }
 
     @Override
+    @Transactional
     public UserResponse changePassword(ChangePasswordRequest request){
         User user = userRepository.findById(request.getId())
                 .orElseThrow(() -> new RuntimeException(ErrorCode.User_Not_Found));
